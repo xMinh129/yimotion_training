@@ -3,3 +3,4 @@ venv2/
 .idea/
 .idea/workspace.xml
 *.xml
+emotion_detection/model.h5
