@@ -137,7 +137,7 @@ def run_model(image):
         cropped_images.append(cropped_image)
         cv2.imwrite('/Users/minhvu/Downloads/yimotion_training/object_detection/outputs/image_{0}.jpg'.format(i),
                     cv2.cvtColor(cropped_image, cv2.COLOR_RGB2BGR)) # To use BGR instead of BGRA in cv2
-        upload_to_drive(drive, 'yimotion_images', '/Users/minhvu/Downloads/yimotion_training/object_detection/outputs/image_{0}.jpg'.format(i))
+        # upload_to_drive(drive, 'yimotion_images', '/Users/minhvu/Downloads/yimotion_training/object_detection/outputs/image_{0}.jpg'.format(i))
     img = cropped_images[0]
     return img
 
@@ -154,37 +154,37 @@ def crop_image(output_dict, detection_box_index, image, w, h):
                                                              ))
         return cropped_img
 
-
-def upload_to_drive(drive, folder_name, image_name):
-
-
-    #Name of the folder where I'd like to upload images
-    upload_folder = folder_name
-    #Id of the folder where I'd like to upload images
-    upload_folder_id = None
-
-    #Check if folder exists. If not than create one with the given name
-    #Check the files and folers in the root foled
-    file_list = drive.ListFile({'q': "'root' in parents and trashed=false"}).GetList()
-    for file_folder in file_list:
-        if file_folder['title'] == upload_folder:
-        	#Get the matching folder id
-            upload_folder_id = file_folder['id']
-            print 'Image is uploaded to EXISTING folder: ' + file_folder['title']
-            #We need to leave this if it's done
-            break
-        else:
-            #If there is no mathing folder, create a new one
-            file_new_folder = drive.CreateFile({'title': upload_folder,
-                "mimeType": "application/vnd.google-apps.folder"})
-            file_new_folder.Upload() #Upload the folder to the drive
-            print 'New folder created: ' + file_new_folder['title']
-            upload_folder_id = file_new_folder['id'] #Get the folder id
-            print 'Image is uploaded to the NEW folder: ' + file_new_folder['title']
-            break #We need to leave this if it's done
-
-    #Create new file in the upload_folder
-    file_image = drive.CreateFile({"parents":  [{"kind": "drive#fileLink","id": upload_folder_id}]})
-    file_image.SetContentFile(image_name) #Set the content to the taken image
-    file_image.Upload() # Upload it
+#
+# def upload_to_drive(drive, folder_name, image_name):
+#
+#
+#     #Name of the folder where I'd like to upload images
+#     upload_folder = folder_name
+#     #Id of the folder where I'd like to upload images
+#     upload_folder_id = None
+#
+#     #Check if folder exists. If not than create one with the given name
+#     #Check the files and folers in the root foled
+#     file_list = drive.ListFile({'q': "'root' in parents and trashed=false"}).GetList()
+#     for file_folder in file_list:
+#         if file_folder['title'] == upload_folder:
+#         	#Get the matching folder id
+#             upload_folder_id = file_folder['id']
+#             print 'Image is uploaded to EXISTING folder: ' + file_folder['title']
+#             #We need to leave this if it's done
+#             break
+#         else:
+#             #If there is no mathing folder, create a new one
+#             file_new_folder = drive.CreateFile({'title': upload_folder,
+#                 "mimeType": "application/vnd.google-apps.folder"})
+#             file_new_folder.Upload() #Upload the folder to the drive
+#             print 'New folder created: ' + file_new_folder['title']
+#             upload_folder_id = file_new_folder['id'] #Get the folder id
+#             print 'Image is uploaded to the NEW folder: ' + file_new_folder['title']
+#             break #We need to leave this if it's done
+#
+#     #Create new file in the upload_folder
+#     file_image = drive.CreateFile({"parents":  [{"kind": "drive#fileLink","id": upload_folder_id}]})
+#     file_image.SetContentFile(image_name) #Set the content to the taken image
+#     file_image.Upload() # Upload it
 
